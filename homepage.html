@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <title>Skillio - กิจกรรมของฉัน</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      display: flex;
+    }
+
+    aside {
+      background: #888;
+      width: 200px;
+      color: white;
+      padding: 1.5rem;
+      height: 100vh;
+    }
+
+    aside div {
+      margin-bottom: 1rem;
+    }
+
+    aside nav a {
+      display: block;
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem;
+      background: #fff;
+    }
+
+    h2 {
+      margin-top: 2rem;
+    }
+
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .card {
+      display: flex;
+      background: #999;
+      padding: 1rem;
+      border-radius: 20px;
+      width: 45%;
+      color: black;
+    }
+
+    .card img {
+      width: 80px;
+      height: 80px;
+      margin-right: 1rem;
+      background: #ccc;
+      border-radius: 10px;
+    }
+
+    .card div {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+    }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div>ID: <span id="studentId"></span></div>
+    <div>Name: <span id="studentName"></span></div>
+    <hr />
+    <nav>
+      <a href="#">Activity</a>
+      <a href="#">Result</a>
+    </nav>
+  </aside>
+
+  <section style="margin-bottom: 2rem;">
+    <button onclick="toggleForm()">➕ เพิ่มกิจกรรม</button>
+    <div id="formContainer" style="margin-top: 1rem; display: none;">
+      <input id="actName" placeholder="ชื่อกิจกรรม" required><br><br>
+      <input id="actDesc" placeholder="คำอธิบาย"><br><br>
+      <select id="actType" required>
+        <option value="">-- เลือกประเภท --</option>
+        <option value="Education">Education</option>
+        <option value="Leadership">Leadership</option>
+        <option value="Volunteer">Volunteer</option>
+      </select><br><br>
+      <input type="date" id="actDate" required><br><br>
+      <button onclick="submitActivity()">บันทึกกิจกรรม</button>
+    </div>
+  </section>
+
+  <main>
+    <h2>Education</h2>
+    <div class="card-container" id="Education"></div>
+
+    <h2>Leadership</h2>
+    <div class="card-container" id="Leadership"></div>
+
+    <h2>Volunteer</h2>
+    <div class="card-container" id="Volunteer"></div>
+  </main>
+
+  <script src="homepage.js"></script>
+</body>
+</html>
