@@ -28,17 +28,17 @@ async function login() {
     });
 
     const result = await res.json();
-    console.log("Login API response:", result);
-
-    if (res.ok && result.studentId) {
-      localStorage.setItem("studentId", result.studentId);
-      localStorage.setItem("studentName", result.name || "");
-      window.location.href = result.studentId === "advisor" ? "advisor.html" : "homepage.html";
+    const data = typeof result.body === "string" ? JSON.parse(result.body) : result.body;
+    console.log("✅ Login data:", data);
+    
+    if (res.ok && data.studentId) {
+      localStorage.setItem("studentId", data.studentId);
+      localStorage.setItem("studentName", data.name || "");
+      window.location.href = data.studentId === "advisor" ? "advisor.html" : "homepage.html";
     } else {
-      console.warn("Failed login:", result);
+      console.warn("⚠️ Failed login:", result);
       errorMsg.textContent = result.message || "เข้าสู่ระบบไม่สำเร็จ";
     }
-
   } catch (err) {
     console.error("Fetch error:", err);
     errorMsg.textContent = "เกิดข้อผิดพลาดจากระบบ";
