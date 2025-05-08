@@ -14,7 +14,13 @@ const apiBase = "https://xno3svh895.execute-api.us-east-1.amazonaws.com/prod";
 async function loadActivities() {
   try {
     const res = await fetch(`${apiBase}/activities/${studentId}`);
-    const activities = await res.json();
+    const result = await res.json();
+
+    const activities = typeof result.body === "string"
+      ? JSON.parse(result.body)
+      : result.body;
+
+    console.log("📦 Loaded activities:", activities);
 
     const categories = {
       "Education": document.getElementById("Education"),
