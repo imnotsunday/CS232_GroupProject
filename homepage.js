@@ -16,11 +16,22 @@ async function loadActivities() {
     const res = await fetch(`${apiBase}/activities/${studentId}`);
     const result = await res.json();
 
-    const activities = typeof result.body === "string"
-      ? JSON.parse(result.body)
-      : result.body;
+    let activities = [];
+
+    if (result.body) {
+      try {
+        activities = JSON.parse(result.body);
+      } catch (e) {
+        console.error("❌ JSON.parse failed:", e);
+      }
+    }
 
     console.log("📦 Loaded activities:", activities);
+
+    if (!Array.isArray(activities)) {
+      console.warn("ไม่พบกิจกรรมหรือข้อมูลผิดรูปแบบ:", activities);
+      return;
+    }
 
     const categories = {
       "Education": document.getElementById("Education"),
