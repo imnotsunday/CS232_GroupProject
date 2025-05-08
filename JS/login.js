@@ -12,7 +12,7 @@ async function login() {
     if (username === "advisor" && password === "advisor") {
       localStorage.setItem("studentId", "advisor");
       localStorage.setItem("studentName", "advisor");
-      window.location.href = "advisor.html";
+      window.location.href = "../HTML/advisor.html";
       return; 
     }
   
