@@ -30,18 +30,19 @@ async function login() {
   });
 
   const result = await res.json();
-  console.log("✅ Login API response:", result);  // 🟡 จุดสำคัญ
+  console.log("Login API response:", result);  
 
   if (res.ok && result.studentId) {
     localStorage.setItem("studentId", result.studentId);
     localStorage.setItem("studentName", result.name || "");
     window.location.href = result.studentId === "advisor" ? "advisor.html" : "homepage.html";
   } else {
-    console.warn("⚠️ Failed login:", result);
+    console.warn("Failed login:", result);
     errorMsg.textContent = result.message || "เข้าสู่ระบบไม่สำเร็จ";
   }
 
 } catch (err) {
-  console.error("🔥 Fetch error:", err);
+  console.error("Fetch error:", err);
   errorMsg.textContent = "เกิดข้อผิดพลาดจากระบบ";
 }
+window.login = login;
