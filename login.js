@@ -17,26 +17,31 @@ async function login() {
     }
   
   
-    try {
-      const res = await fetch("https://xno3svh895.execute-api.us-east-1.amazonaws.com/prod/login", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, password })
-      });
-  
-      const result = await res.json();
-  
-      if (res.ok && result.studentId) {
-        localStorage.setItem("studentId", result.studentId);
-        localStorage.setItem("studentName", result.name || "");
-        window.location.href = "homepage.html";
-      } else {
-        errorMsg.textContent = result.message || "เข้าสู่ระบบไม่สำเร็จ";
-      }
-  
-    } catch (err) {
-      console.error(err);
-      errorMsg.textContent = "เกิดข้อผิดพลาดจากระบบ";
-    }
+   try {
+  const res = await fetch("https://your-api-id.execute-api.amazonaws.com/prod/login", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      username: username,
+      password: password
+    })
+  });
+
+  const result = await res.json();
+  console.log("✅ Login API response:", result);  // 🟡 จุดสำคัญ
+
+  if (res.ok && result.studentId) {
+    localStorage.setItem("studentId", result.studentId);
+    localStorage.setItem("studentName", result.name || "");
+    window.location.href = result.studentId === "advisor" ? "advisor.html" : "homepage.html";
+  } else {
+    console.warn("⚠️ Failed login:", result);
+    errorMsg.textContent = result.message || "เข้าสู่ระบบไม่สำเร็จ";
   }
-  
+
+} catch (err) {
+  console.error("🔥 Fetch error:", err);
+  errorMsg.textContent = "เกิดข้อผิดพลาดจากระบบ";
+}
