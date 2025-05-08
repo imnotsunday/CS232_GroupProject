@@ -16,8 +16,8 @@ async function loadActivities() {
     const res = await fetch(`${apiBase}/activities/${studentId}`);
     const result = await res.json();
 
+    // ✅ แปลง result.body ให้เป็น array
     let activities = [];
-
     if (result.body) {
       try {
         activities = JSON.parse(result.body);
@@ -29,7 +29,7 @@ async function loadActivities() {
     console.log("📦 Loaded activities:", activities);
 
     if (!Array.isArray(activities)) {
-      console.warn("ไม่พบกิจกรรมหรือข้อมูลผิดรูปแบบ:", activities);
+      console.warn("⚠️ ไม่พบกิจกรรมหรือข้อมูลผิดรูปแบบ:", activities);
       return;
     }
 
@@ -39,6 +39,7 @@ async function loadActivities() {
       "Volunteer": document.getElementById("Volunteer")
     };
 
+    // ล้างข้อมูลเดิม
     Object.values(categories).forEach(container => container.innerHTML = "");
 
     activities.forEach(act => {
@@ -65,46 +66,46 @@ async function loadActivities() {
 loadActivities();
 
 function toggleForm() {
-    const form = document.getElementById("formContainer");
-    form.style.display = form.style.display === "none" ? "block" : "none";
+  const form = document.getElementById("formContainer");
+  form.style.display = form.style.display === "none" ? "block" : "none";
+}
+
+async function submitActivity() {
+  const name = document.getElementById("actName").value.trim();
+  const description = document.getElementById("actDesc").value.trim();
+  const type = document.getElementById("actType").value;
+  const date = document.getElementById("actDate").value;
+
+  if (!name || !type || !date) {
+    alert("กรุณากรอกข้อมูลให้ครบ");
+    return;
   }
-  
-  async function submitActivity() {
-    const name = document.getElementById("actName").value.trim();
-    const description = document.getElementById("actDesc").value.trim();
-    const type = document.getElementById("actType").value;
-    const date = document.getElementById("actDate").value;
-  
-    if (!name || !type || !date) {
-      alert("กรุณากรอกข้อมูลให้ครบ");
-      return;
+
+  const payload = {
+    studentId,
+    name,
+    description,
+    type,
+    date
+  };
+
+  try {
+    const res = await fetch(`${apiBase}/activities`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
+    });
+
+    if (res.ok) {
+      alert("เพิ่มกิจกรรมสำเร็จ!");
+      document.getElementById("formContainer").style.display = "none";
+      loadActivities(); // โหลดใหม่
+    } else {
+      const data = await res.json();
+      alert(data.message || "เกิดข้อผิดพลาดในการบันทึกกิจกรรม");
     }
-  
-    const payload = {
-      studentId,
-      name,
-      description,
-      type,
-      date
-    };
-  
-    try {
-      const res = await fetch(`${apiBase}/activities`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-  
-      if (res.ok) {
-        alert("เพิ่มกิจกรรมสำเร็จ!");
-        document.getElementById("formContainer").style.display = "none";
-        loadActivities(); // โหลดใหม่
-      } else {
-        const data = await res.json();
-        alert(data.message || "เกิดข้อผิดพลาดในการบันทึกกิจกรรม");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("ไม่สามารถเชื่อมต่อกับระบบได้");
-    }
+  } catch (err) {
+    console.error(err);
+    alert("ไม่สามารถเชื่อมต่อกับระบบได้");
   }
+}
