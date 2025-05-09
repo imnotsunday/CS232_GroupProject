@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <title>Skillio - Result</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; display: flex; }
+    aside {
+      background: #888;
+      width: 230px;
+      color: black;
+      padding: 1.5rem;
+      height: 100vh;
+    }
+    aside div { margin-bottom: 1rem; font-weight: bold; }
+    aside nav a {
+      display: block;
+      color: black;
+      text-decoration: none;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem;
+      background: #fff;
+    }
+
+    h2 {
+      margin-top: 0;
+      font-size: 2rem;
+    }
+
+    .summary {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .box {
+      background: #999;
+      color: black;
+      padding: 1rem 2rem;
+      border-radius: 20px;
+      text-align: center;
+      min-width: 150px;
+    }
+
+    .box span {
+      font-size: 2rem;
+      font-weight: bold;
+      display: block;
+    }
+
+    canvas {
+      max-width: 400px;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <aside>
+    <div>ID : <span id="studentId"></span></div>
+    <div>Name : <span id="studentName"></span></div>
+    <hr />
+    <nav>
+      <a href="homepage.html">Activity</a>
+      <a href="result.html">Result</a>
+    </nav>
+  </aside>
+
+  <main>
+    <h2>Result</h2>
+    <div class="summary">
+      <div class="box">
+        <span id="countEducation">0</span>
+        Education
+      </div>
+      <div class="box">
+        <span id="countLeadership">0</span>
+        Leadership
+      </div>
+      <div class="box">
+        <span id="countVolunteer">0</span>
+        Volunteer
+      </div>
+    </div>
+
+    <h2>Chart</h2>
+    <canvas id="pieChart"></canvas>
+  </main>
+
+  <script src="result.js"></script>
+</body>
+</html>
