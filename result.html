@@ -26,20 +26,11 @@
       flex-grow: 1;
       padding: 2rem;
       background: #fff;
-      display: flex;
-      flex-direction: column;
     }
 
     h2 {
       margin-top: 0;
       font-size: 2rem;
-    }
-
-    .content-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
     }
 
     .summary {
@@ -63,12 +54,9 @@
       display: block;
     }
 
-    .chart-wrapper {
-      width: 400px;
-    }
-
     canvas {
-      width: 100%;
+      max-width: 400px;
+      margin-top: 1rem;
     }
   </style>
 </head>
@@ -86,26 +74,23 @@
 
   <main>
     <h2>Result</h2>
-    <div class="content-row">
-      <div class="summary">
-        <div class="box">
-          <span id="countEducation">0</span>
-          Education
-        </div>
-        <div class="box">
-          <span id="countLeadership">0</span>
-          Leadership
-        </div>
-        <div class="box">
-          <span id="countVolunteer">0</span>
-          Volunteer
-        </div>
+    <div class="summary">
+      <div class="box">
+        <span id="countEducation">0</span>
+        Education
       </div>
-
-      <div class="chart-wrapper">
-        <canvas id="pieChart"></canvas>
+      <div class="box">
+        <span id="countLeadership">0</span>
+        Leadership
+      </div>
+      <div class="box">
+        <span id="countVolunteer">0</span>
+        Volunteer
       </div>
     </div>
+
+    <h2>Chart</h2>
+    <canvas id="pieChart"></canvas>
   </main>
 
   <script src="result.js"></script>

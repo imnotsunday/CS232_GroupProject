@@ -19,10 +19,12 @@ async function loadAndRender() {
       }
     });
 
+    // อัปเดตหน้าจอ
     document.getElementById("countEducation").textContent = count.Education;
     document.getElementById("countLeadership").textContent = count.Leadership;
     document.getElementById("countVolunteer").textContent = count.Volunteer;
 
+    // เตรียมข้อมูล % สำหรับ Pie Chart
     const total = count.Education + count.Leadership + count.Volunteer;
     const percent = total === 0 ? [0, 0, 0] : [
       (count.Education / total * 100).toFixed(1),
