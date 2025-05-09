@@ -6,7 +6,9 @@ async function loadAdvisorSummary() {
 
   try {
     const res = await fetch(`${apiBase}/advisor/summary`);
-    const data = await res.json();
+    const raw = await res.json();
+
+    const data = typeof raw.body === "string" ? JSON.parse(raw.body) : raw;
 
     if (!Array.isArray(data)) {
       studentListDiv.innerHTML = "<p>ไม่พบข้อมูล</p>";
@@ -29,7 +31,7 @@ async function loadAdvisorSummary() {
     });
   } catch (err) {
     console.error("Error loading advisor data:", err);
-    studentListDiv.innerHTML = "<p>เกิดข้อผิด</p>";
+    studentListDiv.innerHTML = "<p>เกิดข้อผิดพลาดจากระบบ</p>";
   }
 }
 
