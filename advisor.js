@@ -1,4 +1,4 @@
-const apiBase = "https://xno3svh895.execute-api.us-east-1.amazonaws.com/prod"; // Replace with your actual endpoint
+const apiBase = "https://xno3svh895.execute-api.us-east-1.amazonaws.com/prod";
 
 async function loadAdvisorSummary() {
   const studentListDiv = document.getElementById("studentList");
@@ -7,7 +7,6 @@ async function loadAdvisorSummary() {
   try {
     const res = await fetch(`${apiBase}/advisor/summary`);
     const raw = await res.json();
-
     const data = typeof raw.body === "string" ? JSON.parse(raw.body) : raw;
 
     if (!Array.isArray(data)) {
@@ -18,14 +17,24 @@ async function loadAdvisorSummary() {
     studentListDiv.innerHTML = "";
 
     data.forEach(student => {
+      const countByType = { Education: 0, Leadership: 0, Volunteer: 0 };
+
+      (student.activities || []).forEach(act => {
+        if (countByType[act.type] !== undefined) {
+          countByType[act.type]++;
+        }
+      });
+
       const div = document.createElement("div");
       div.className = "student-card";
       div.innerHTML = `
         <h3>${student.name} (${student.studentId})</h3>
-        <p>จำนวนกิจกรรมทั้งหมด: ${student.totalActivities || 0}</p>
-        <ul class="activity-list">
-          ${(student.activities || []).map(act => `<li>${act.name} (${act.type} - ${act.date})</li>`).join("")}
-        </ul>
+        <p>กิจกรรมทั้งหมด: <strong>${student.totalActivities || 0}</strong></p>
+        <p>
+          📘 Education: ${countByType.Education} |
+          🧠 Leadership: ${countByType.Leadership} |
+          ❤️ Volunteer: ${countByType.Volunteer}
+        </p>
       `;
       studentListDiv.appendChild(div);
     });
@@ -35,5 +44,4 @@ async function loadAdvisorSummary() {
   }
 }
 
-// Load immediately
 loadAdvisorSummary();
