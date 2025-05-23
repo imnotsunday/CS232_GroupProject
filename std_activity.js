@@ -109,3 +109,13 @@ async function submitActivity() {
     alert("ไม่สามารถเชื่อมต่อกับระบบได้");
   }
 }
+
+function toggleDropdown() {
+      document.getElementById("dropdownMenu").classList.toggle("show");
+}
+
+window.onclick = function(event) {
+  if (!event.target.closest('.filter-wrapper')) {
+    document.getElementById("dropdownMenu").classList.remove("show");
+  }
+}
