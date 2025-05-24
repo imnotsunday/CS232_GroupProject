@@ -119,6 +119,14 @@
       display: flex;
       gap: 20px;
       align-items: center;
+      justify-content: space-between;
+    }
+
+    .top-left {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+      justify-content: center;
     }
 
     .search {
@@ -216,6 +224,91 @@
       display: block;
     }
 
+    .card-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .card-horizontal {
+      display: flex;
+      background-color: #f9f9f9;
+      border-radius: 16px;
+      padding: 16px;
+      width: 100%;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      gap: 16px;
+    }
+
+    .card-img {
+      width: 250px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    .card-body {
+      display: flex;
+      justify-content: space-between;
+      flex: 1;
+      gap: 24px;
+    }
+
+    .card-text {
+      flex: 1;
+    }
+
+    .card-text h3 {
+      margin: 0;
+      font-size: 1.25rem;
+      color: #222;
+    }
+
+    .card-text p {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 6px 0 12px;
+    }
+
+    .card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .tag {
+      border: 1px solid #999;
+      border-radius: 999px;
+      padding: 4px 12px;
+      font-size: 0.8rem;
+      background-color: white;
+      color: #333;
+    }
+
+
+    .join-btn {
+      height: 50px;
+      width: 15%;
+      background-color: #2e7d32;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      align-self: center;
+      font-size: large;
+      transition:  background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .join-btn:hover {
+    background-color: #27662a;
+    transform: translateY(-5px);
+
+    }
+
 
    
   </style>
@@ -245,7 +338,25 @@
 
   <main>
     <div class="top">
-      <h1>Activities</h1>
+      <div class="top-left">
+        <h1>Activities</h1>
+        <div class="filter-wrapper">
+          <button class="filter-button" onclick="toggleDropdown()">
+            <span class="icon-label">
+                <span>Filter</span> <img src="filter.png" alt="filter">
+            </span>
+          </button>
+          <div class="dropdown" id="dropdownMenu">
+            <button>Teamwork</button>
+            <button>Leadership</button>
+            <button>Carpentry</button>
+            <button>Medicals</button>
+            <button>Economics</button>
+            <button>Foreign languages</button>
+            <button>Project management</button>
+          </div>
+        </div>
+      </div>
       <div class="search">
         <input class="search-inputs" type="text" id="searchInput" placeholder="search" required>
             <button class="search-icon"  type="submit" onclick="search()">
@@ -254,27 +365,35 @@
                 </span>
             </button>
       </div>
-      <div class="filter-wrapper">
-        <button class="filter-button" onclick="toggleDropdown()">
-          <span class="icon-label">
-              <span>Filter</span> <img src="filter.png" alt="filter">
-          </span>
-        </button>
-        <div class="dropdown" id="dropdownMenu">
-          <button>Teamwork</button>
-          <button>Leadership</button>
-          <button>Carpentry</button>
-          <button>Medicals</button>
-          <button>Economics</button>
-          <button>Foreign languages</button>
-          <button>Project management</button>
+      
+    </div>
+
+    <!-- Cards of Activity -->
+    <div id="activity-container" class="card-container">
+      <div class="card-horizontal">
+        <img src="activity.png" alt="กิจกรรม" class="card-img" />
+    
+        <div class="card-body">
+          <div class="card-text">
+              <h3>ท่องโลกโขลกกระเทียม</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              
+              <div class="card-tags">
+                <span class="tag">Programming</span>
+                <span class="tag">Data analytics</span>
+                <span class="tag">Presentation skills</span>
+              </div>
+          </div>
+
+            <button class="join-btn">JOIN</button>
         </div>
       </div>
+
     </div>
-    
-    
+
   </main>
 
   <script src="std_activity.js"></script>
+
 </body>
 </html>
