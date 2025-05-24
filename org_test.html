@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Skillio - Activity</title>
+  <title>Skillio - Test</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
   <style>
@@ -255,6 +255,7 @@
     }
 
     .card-horizontal {
+      position: relative;
       display: flex;
       background-color: #f9f9f9;
       border-radius: 16px;
@@ -270,6 +271,22 @@
       height: 150px;
       object-fit: cover;
       border-radius: 12px;
+      display: block;
+    }
+
+    .response {
+        position: absolute;
+        top: 10%;
+        left: 150px;
+        background-color: #fff;
+        border: 1px solid #FF2D55;
+        color: #FF2D55;
+        padding: 4px 10px;
+        border-radius: 999px; /* แคปซูล */
+        font-size: 12px;
+        font-weight: bold;
+        z-index: 10;
+        box-shadow: 0 1px 4px rgba(0,0,0,0.2);
     }
 
     .card-body {
@@ -363,7 +380,7 @@
   <main>
     <div class="top">
       <div class="top-left">
-        <h1>Activities</h1>
+        <h1>Test</h1>
         <div class="filter-wrapper">
           <button class="filter-button" onclick="toggleDropdown()">
             <span class="icon-label">
@@ -400,6 +417,7 @@
     <!-- Cards of Activity -->
     <div id="activity-container" class="card-container">
       <div class="card-horizontal">
+        <div class="response">100 Responses</div>
         <img src="activity.png" alt="กิจกรรม" class="card-img" />
     
         <div class="card-body">
