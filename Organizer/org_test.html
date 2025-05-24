@@ -36,6 +36,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: fixed;
     }
 
     aside nav {
@@ -55,8 +56,15 @@
     }
 
     .spacer {
-      flex-grow: 0.9;
+      flex-grow: 0.8;
       width: 100%;
+    }
+
+    main {
+      flex-grow: 1;
+      padding: 2rem;
+      background: #fff;
+      margin-left: 280px;
     }
 
     .user {
@@ -356,7 +364,7 @@
 <body>
 
   <aside>
-    <div class="logo"><img src="logo.png" alt="logo"></div>
+    <div class="logo"><img src="../Picture/logo.png" alt="logo"></div>
     <nav>
       <a href="#">Dashboard</a>
       <a href="#">Activity</a>
@@ -371,8 +379,8 @@
         <div><span id="studentId"></span></div>
       </div>  
     </div>
-    <a href="login.html" class="log-out">
-      <img src="Log out.png" alt="logout">
+    <a href="../login.html" class="log-out">
+      <img src="../Picture/Log out.png" alt="logout">
       <div class="log-out-text">Log out</div>
     </a>
   </aside>
@@ -384,7 +392,7 @@
         <div class="filter-wrapper">
           <button class="filter-button" onclick="toggleDropdown()">
             <span class="icon-label">
-                <span>Filter</span> <img src="filter.png" alt="filter">
+                <span>Filter</span> <img src="../Picture/filter.png" alt="filter">
             </span>
           </button>
           <div class="dropdown" id="dropdownMenu">
@@ -418,7 +426,7 @@
     <div id="activity-container" class="card-container">
       <div class="card-horizontal">
         <div class="response">100 Responses</div>
-        <img src="activity.png" alt="กิจกรรม" class="card-img" />
+        <img src="../Picture/activity.png" alt="กิจกรรม" class="card-img" />
     
         <div class="card-body">
           <div class="card-text">

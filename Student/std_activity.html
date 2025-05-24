@@ -36,6 +36,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: fixed;
     }
 
     aside nav {
@@ -55,7 +56,7 @@
     }
 
     .spacer {
-      flex-grow: 0.9;
+      flex-grow: 0.8;
       width: 100%;
     }
 
@@ -113,6 +114,7 @@
       flex-grow: 1;
       padding: 2rem;
       background: #fff;
+      margin-left: 280px;
     }
 
     .top {
@@ -224,29 +226,6 @@
       display: block;
     }
 
-    .new {
-        display: flex;
-        justify-content: flex-end;
-    }
-    .new-btn {
-        width: 10%;
-        height: 50px;
-        font-size: 18px;
-        font-weight: bold;
-        margin: 20px ;
-        border-radius: 40px;
-        background-color: #279455;
-        border: none;
-        color: white;
-        transition:  background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
-        cursor: pointer;
-    }
-
-    .new-btn:hover {
-        background-color: #17733F;
-        transform: translateY(-5px);
-    }
-
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -311,10 +290,10 @@
     }
 
 
-    .edit-btn {
+    .join-btn {
       height: 50px;
       width: 15%;
-      background-color: #FFCC00;
+      background-color: #2e7d32;
       color: white;
       padding: 10px 20px;
       border-radius: 999px;
@@ -326,9 +305,9 @@
       transition:  background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .edit-btn:hover {
-        background-color: #e2b502;
-        transform: translateY(-5px);
+    .join-btn:hover {
+    background-color: #17733F;
+    transform: translateY(-5px);
 
     }
 
@@ -339,11 +318,10 @@
 <body>
 
   <aside>
-    <div class="logo"><img src="logo.png" alt="logo"></div>
+    <div class="logo"><img src="../Picture/logo.png" alt="logo"></div>
     <nav>
-      <a href="#">Dashboard</a>
-      <a href="#">Activity</a>
-      <a href="#">Test</a>
+      <a href="std_dashboard.html">Dashboard</a>
+      <a href="std_activity.html">Activity</a>
     </nav>
     <div class="spacer"></div>
     <hr />
@@ -354,8 +332,8 @@
         <div><span id="studentId"></span></div>
       </div>  
     </div>
-    <a href="login.html" class="log-out">
-      <img src="Log out.png" alt="logout">
+    <a href="../login.html" class="log-out">
+      <img src="../Picture/Log out.png" alt="logout">
       <div class="log-out-text">Log out</div>
     </a>
   </aside>
@@ -367,7 +345,7 @@
         <div class="filter-wrapper">
           <button class="filter-button" onclick="toggleDropdown()">
             <span class="icon-label">
-                <span>Filter</span> <img src="filter.png" alt="filter">
+                <span>Filter</span> <img src="../Picture/filter.png" alt="filter">
             </span>
           </button>
           <div class="dropdown" id="dropdownMenu">
@@ -392,15 +370,10 @@
       
     </div>
 
-    <div class="new">
-        <button class="new-btn">+ NEW</button>
-    </div>
-    
-
     <!-- Cards of Activity -->
     <div id="activity-container" class="card-container">
       <div class="card-horizontal">
-        <img src="activity.png" alt="กิจกรรม" class="card-img" />
+        <img src="../Picture/activity.png" alt="กิจกรรม" class="card-img" />
     
         <div class="card-body">
           <div class="card-text">
@@ -414,7 +387,7 @@
               </div>
           </div>
 
-            <button class="edit-btn">Edit</button>
+            <button class="join-btn">JOIN</button>
         </div>
       </div>
 
@@ -422,7 +395,7 @@
 
   </main>
 
-  <script src="#"></script>
+  <script src="std_activity.js"></script>
 
 </body>
 </html>

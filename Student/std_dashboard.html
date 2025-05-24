@@ -32,6 +32,7 @@
       display: flex;
       flex-direction: column;
       align-items: center;
+      position: fixed;
     }
 
     aside nav {
@@ -51,7 +52,7 @@
     }
 
     .spacer {
-      flex-grow: 0.9;
+      flex-grow: 0.8;
       width: 100%;
     }
 
@@ -108,6 +109,7 @@
       flex-grow: 1;
       padding: 2rem;
       background: #fff;
+      margin-left: 280px;
     }
 
     h2 {
@@ -153,7 +155,7 @@
 <body>
 
   <aside>
-    <div class="logo"><img src="logo.png" alt="logo"></div>
+    <div class="logo"><img src="../Picture/logo.png" alt="logo"></div>
     <nav>
       <a href="std_dashboard.html">Dashboard</a>
       <a href="std_activity.html">Activity</a>
@@ -167,8 +169,8 @@
         <div><span id="studentId"></span></div>
       </div>  
     </div>
-    <a href="login.html" class="log-out">
-      <img src="Log out.png" alt="logout">
+    <a href="../login.html" class="log-out">
+      <img src="../Picture/Log out.png" alt="logout">
       <div class="log-out-text">Log out</div>
     </a>
   </aside>
