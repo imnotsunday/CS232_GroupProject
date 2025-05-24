@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <title>Skillio - กิจกรรมของฉัน</title>
+  <title>Skillio - Activity</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=search" />
   <style>
@@ -224,6 +224,29 @@
       display: block;
     }
 
+    .new {
+        display: flex;
+        justify-content: flex-end;
+    }
+    .new-btn {
+        width: 10%;
+        height: 50px;
+        font-size: 18px;
+        font-weight: bold;
+        margin: 20px ;
+        border-radius: 40px;
+        background-color: #279455;
+        border: none;
+        color: white;
+        transition:  background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+        cursor: pointer;
+    }
+
+    .new-btn:hover {
+        background-color: #17733F;
+        transform: translateY(-5px);
+    }
+
     .card-container {
       display: flex;
       flex-wrap: wrap;
@@ -288,10 +311,10 @@
     }
 
 
-    .join-btn {
+    .edit-btn {
       height: 50px;
       width: 15%;
-      background-color: #2e7d32;
+      background-color: #FFCC00;
       color: white;
       padding: 10px 20px;
       border-radius: 999px;
@@ -303,9 +326,9 @@
       transition:  background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
     }
 
-    .join-btn:hover {
-    background-color: #17733F;
-    transform: translateY(-5px);
+    .edit-btn:hover {
+        background-color: #e2b502;
+        transform: translateY(-5px);
 
     }
 
@@ -318,8 +341,8 @@
   <aside>
     <div class="logo"><img src="logo.png" alt="logo"></div>
     <nav>
-      <a href="std_dashboard.html">Dashboard</a>
-      <a href="std_activity.html">Activity</a>
+      <a href="#">Dashboard</a>
+      <a href="#">Activity</a>
     </nav>
     <div class="spacer"></div>
     <hr />
@@ -368,6 +391,11 @@
       
     </div>
 
+    <div class="new">
+        <button class="new-btn">+ NEW</button>
+    </div>
+    
+
     <!-- Cards of Activity -->
     <div id="activity-container" class="card-container">
       <div class="card-horizontal">
@@ -385,7 +413,7 @@
               </div>
           </div>
 
-            <button class="join-btn">JOIN</button>
+            <button class="edit-btn">Edit</button>
         </div>
       </div>
 
@@ -393,7 +421,7 @@
 
   </main>
 
-  <script src="std_activity.js"></script>
+  <script src="#"></script>
 
 </body>
 </html>
