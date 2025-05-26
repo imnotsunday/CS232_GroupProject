@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Result - Skillio</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+    .sidebar {
+      width: 240px;
+      background-color: #147a34;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 30px 20px;
+    }
+    .logo {
+      font-size: 30px;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+    .menu-item {
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .menu-item.active {
+      font-weight: bold;
+      border-left: 4px solid white;
+      padding-left: 8px;
+    }
+    .profile {
+      margin-top: auto;
+      font-size: 14px;
+    }
+    .logout {
+      margin-top: 12px;
+      background-color: white;
+      color: #147a34;
+      border: none;
+      border-radius: 20px;
+      padding: 6px 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .main {
+      flex-grow: 1;
+      padding: 40px 60px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .main h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      align-self: flex-start;
+    }
+    .result-card {
+      background-color: white;
+      border-radius: 20px;
+      padding: 30px;
+      max-width: 800px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+    .result-card img {
+      width: 240px;
+      border-radius: 16px;
+      margin-bottom: 16px;
+    }
+    .result-card h3 {
+      font-size: 20px;
+      font-weight: 600;
+      margin: 4px 0;
+    }
+    .result-card p {
+      margin: 4px 0;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin: 10px 0;
+      justify-content: center;
+    }
+    .tag {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #00000040;
+    }
+    .tag.pass {
+      background-color: #e0f7e9;
+      color: #147a34;
+      border: 1px solid #4caf50;
+    }
+    .tag.fail {
+      background-color: #ffeaea;
+      color: #d32f2f;
+      border: 1px solid #e53935;
+    }
+    .check {
+      font-size: 64px;
+      margin: 20px 0 10px;
+    }
+    .score {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .back-btn {
+      margin-top: 20px;
+      background-color: #147a34;
+      color: white;
+      padding: 14px 28px;
+      font-size: 16px;
+      border: none;
+      border-radius: 28px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">Skillio</div>
+    <div class="menu-item">Dashboard</div>
+    <div class="menu-item active">Activities</div>
+    <div class="profile">
+      👤 Student<br />
+      <button class="logout" onclick="logout()">↶ Log out</button>
+    </div>
+  </div>
+  <div class="main">
+    <h2>Activities</h2>
+    <div class="result-card">
+      <img src="illustration.png" alt="Activity" />
+      <h3 id="name">...</h3>
+      <p id="date">...</p>
+      <p id="desc">...</p>
+      <div class="tags" id="tags"></div>
+
+      <div class="check">✅</div>
+      <div class="score" id="score">-</div>
+
+      <div class="tags" id="skills"></div>
+      <button class="back-btn" onclick="location.href='dashboard.html'">Back to Dashboard</button>
+    </div>
+  </div>
+
+  <script type="module">
+  import { apiGet } from './api.js';
+  import { logout } from './auth.js';
+  window.logout = logout;
+
+  const params = new URLSearchParams(window.location.search);
+  const activityId = params.get('activityId');
+
+  async function loadResult() {
+    const detail = await apiGet(`/activities/${activityId}`);
+    const result = await apiGet(`/quiz/result?activityId=${activityId}`);
+
+    document.getElementById('name').innerText = detail.name;
+    document.getElementById('date').innerText = detail.eventDate;
+    document.getElementById('desc').innerText = detail.description;
+
+    // ✅ แปลง string JSON เป็น array หากจำเป็น
+    let hardSkills = detail.hardSkills;
+    let softSkills = detail.softSkills;
+
+    try {
+      if (typeof hardSkills === 'string') hardSkills = JSON.parse(hardSkills);
+      if (typeof softSkills === 'string') softSkills = JSON.parse(softSkills);
+    } catch (e) {
+      hardSkills = [];
+      softSkills = [];
+    }
+
+    const tagBox = document.getElementById('tags');
+    [...(hardSkills || []), ...(softSkills || [])].forEach(skill => {
+      const div = document.createElement('div');
+      div.className = 'tag';
+      div.innerText = skill;
+      tagBox.appendChild(div);
+    });
+
+    document.getElementById('score').innerText = `${result.correct} / ${result.total}`;
+
+    const skillBox = document.getElementById('skills');
+    (result.skills || []).forEach(s => {
+      const div = document.createElement('div');
+      div.className = 'tag ' + (s.pass ? 'pass' : 'fail');
+      div.innerHTML = `${s.name} ${s.pass ? '✔️' : '❌'}`;
+      skillBox.appendChild(div);
+    });
+  }
+
+  loadResult();
+</script>
+</body>
+</html>

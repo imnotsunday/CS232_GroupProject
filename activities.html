@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Activities - Skillio</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      height: 100vh;
+      background-color: #f5f5f5;
+    }
+    .sidebar {
+      width: 220px;
+      background-color: #147a34;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 40px;
+    }
+    .menu-item {
+      font-size: 16px;
+      margin: 10px 0;
+      cursor: pointer;
+    }
+    .menu-item.active {
+      border-left: 4px solid white;
+      padding-left: 10px;
+      font-weight: bold;
+    }
+    .profile {
+      margin-top: auto;
+      font-size: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: start;
+    }
+    .logout {
+      margin-top: 10px;
+      background: white;
+      color: #147a34;
+      border-radius: 20px;
+      padding: 5px 12px;
+      font-weight: bold;
+      cursor: pointer;
+      border: none;
+    }
+    .main {
+      flex-grow: 1;
+      padding: 30px;
+      overflow-y: auto;
+    }
+    .search-bar {
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      padding: 8px 12px;
+      width: 250px;
+      border-radius: 20px;
+      border: 1px solid #ccc;
+      outline: none;
+    }
+    .activity-card {
+      background-color: white;
+      border-radius: 12px;
+      padding: 15px;
+      margin-bottom: 20px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+    .activity-card img {
+      width: 120px;
+      height: auto;
+      border-radius: 8px;
+    }
+    .activity-content {
+      flex-grow: 1;
+    }
+    .activity-content h4 {
+      margin: 0;
+    }
+    .activity-content p {
+      margin: 5px 0;
+      color: #555;
+    }
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+    .tag {
+      background-color: #e0e0e0;
+      padding: 3px 8px;
+      border-radius: 12px;
+      font-size: 12px;
+    }
+    .join-btn {
+      background-color: #147a34;
+      color: white;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .join-btn.disabled {
+      background-color: #ccc;
+      cursor: not-allowed;
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <div class="logo">Skillio</div>
+    <div class="menu-item" onclick="location.href='dashboard.html'">Dashboard</div>
+    <div class="menu-item active">Activities</div>
+    <div class="profile" id="user-profile">
+      <div>👤 Loading...<br/><span style="font-size:12px;">Student</span></div>
+      <button class="logout" onclick="logout()">↶ Log out</button>
+    </div>
+  </div>
+  <div class="main">
+    <h2>Activities</h2>
+    <div class="search-bar">
+      <input id="searchInput" type="text" placeholder="Search" />
+    </div>
+    <div id="activity-list"></div>
+  </div>
+
+  <script type="module">
+  import { logout, getUser } from './auth.js';
+  import { apiGet } from './api.js';
+  window.logout = logout;
+
+  let allActivities = [];
+
+  async function loadUserProfile() {
+    const user = await getUser();
+    if (user && user.name) {
+      document.getElementById('user-profile').innerHTML = `
+        <div>👤 ${user.name}<br/><span style="font-size:12px;">Student</span></div>
+        <button class="logout" onclick="logout()">↶ Log out</button>
+      `;
+    }
+  }
+
+  function renderActivities(activities) {
+    const container = document.querySelector('#activity-list');
+    container.innerHTML = ''; // clear old
+    activities.forEach(activity => {
+      let hardSkills = activity.hardSkills;
+      let softSkills = activity.softSkills;
+
+      try {
+        if (typeof hardSkills === 'string') hardSkills = JSON.parse(hardSkills);
+        if (typeof softSkills === 'string') softSkills = JSON.parse(softSkills);
+      } catch {
+        hardSkills = [];
+        softSkills = [];
+      }
+
+      const card = document.createElement('div');
+      card.className = 'activity-card';
+
+      card.innerHTML = `
+        <img src="illustration.png" alt="activity" />
+        <div class="activity-content">
+          <h4>${activity.name}</h4>
+          <p>${activity.eventDate || 'TBA'}</p>
+          <p>${activity.description || ''}</p>
+          <div class="tags">
+            ${hardSkills.map(skill => `<div class="tag">${skill}</div>`).join('')}
+            ${softSkills.map(skill => `<div class="tag">${skill}</div>`).join('')}
+          </div>
+        </div>
+        <button class="join-btn">${activity.isJoined ? 'JOINED' : 'JOIN'}</button>
+      `;
+
+      const joinBtn = card.querySelector('.join-btn');
+      if (!activity.isJoined) {
+        joinBtn.addEventListener('click', () => {
+          window.location.href = `activity-detail.html?activityId=${activity.activityId}`;
+        });
+      } else {
+        joinBtn.disabled = true;
+        joinBtn.classList.add('disabled');
+      }
+
+      container.appendChild(card);
+    });
+  }
+
+  async function loadActivities() {
+    allActivities = await apiGet('/activities');
+    renderActivities(allActivities);
+  }
+
+  // Search input listener
+  document.getElementById('searchInput').addEventListener('input', (e) => {
+    const keyword = e.target.value.toLowerCase();
+    const filtered = allActivities.filter(activity =>
+      activity.name.toLowerCase().includes(keyword) ||
+      (activity.description && activity.description.toLowerCase().includes(keyword))
+    );
+    renderActivities(filtered);
+  });
+
+  loadUserProfile();
+  loadActivities();
+</script>
+</body>
+</html>
