@@ -15,7 +15,7 @@
     }
     .sidebar {
       width: 220px;
-      background-color: #279455;
+      background-color: #147a34;
       color: white;
       display: flex;
       flex-direction: column;
@@ -38,7 +38,7 @@
     .logout {
       margin-top: 10px;
       background: white;
-      color: #279455;
+      color: #147a34;
       border-radius: 20px;
       padding: 5px 12px;
       font-weight: bold;
@@ -60,7 +60,7 @@
       margin: 0;
     }
     .new-btn {
-      background-color: #279455;
+      background-color: #147a34;
       color: white;
       border: none;
       padding: 10px 20px;
@@ -132,6 +132,18 @@
       const activities = await apiGet('/my-activities');
 
       activities.forEach(activity => {
+        const parseArray = (val) => {
+          if (Array.isArray(val)) return val;
+          try {
+            return JSON.parse(val || '[]');
+          } catch {
+            return [];
+          }
+        };
+
+        const hardSkills = parseArray(activity.hardSkills);
+        const softSkills = parseArray(activity.softSkills);
+
         const card = document.createElement('div');
         card.className = 'activity-card';
         card.innerHTML = `
@@ -141,8 +153,8 @@
             <p>${activity.eventDate || 'TBA'}</p>
             <p>${activity.description || ''}</p>
             <div class="tags">
-              ${(activity.hardSkills || []).map(skill => '<div class="tag">' + skill + '</div>').join('')}
-              ${(activity.softSkills || []).map(skill => '<div class="tag">' + skill + '</div>').join('')}
+              ${hardSkills.map(skill => `<div class="tag">${skill}</div>`).join('')}
+              ${softSkills.map(skill => `<div class="tag">${skill}</div>`).join('')}
             </div>
           </div>
         `;

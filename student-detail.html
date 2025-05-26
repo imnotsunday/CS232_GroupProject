@@ -16,28 +16,11 @@
     }
     .sidebar {
       width: 250px;
-      background-color: #279455;
+      background-color: #147a34;
       color: white;
       display: flex;
       flex-direction: column;
       padding: 20px;
-    }
-        .profile {
-      margin-top: auto;
-      font-size: 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-    }
-    .logout {
-      margin-top: 10px;
-      background: white;
-      color: #279455;
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
     }
     .logo {
       font-size: 28px;
@@ -86,7 +69,7 @@
       border-radius: 8px;
       padding: 12px 24px;
       font-size: 24px;
-      color: #279455;
+      color: #147a34;
       font-weight: bold;
     }
     h3 {
@@ -137,11 +120,7 @@
   <div class="sidebar">
     <div class="logo">Skillio</div>
     <div class="menu-item" onclick="location.href='advisor-dashboard.html'">⬅ Back</div>
-    <div class="profile" id="user-profile">
-      <div>👤 Advisor</div>
-      <button class="logout" onclick="logout()">↶ Log out</button>
-    </div>
-  </div>
+    <div class="menu-item" onclick="logout()">Log Out</div>
   </div>
   <div class="main">
     <div class="profile-card">

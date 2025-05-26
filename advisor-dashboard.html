@@ -13,7 +13,7 @@
     }
     .sidebar {
       width: 220px;
-      background-color: #279455;
+      background-color: #147a34;
       color: white;
       display: flex;
       flex-direction: column;
@@ -28,23 +28,6 @@
       margin: 10px 0;
       cursor: pointer;
     }
-    .profile {
-      margin-top: auto;
-      font-size: 14px;
-      display: flex;
-      flex-direction: column;
-      align-items: start;
-    }
-    .logout {
-      margin-top: 10px;
-      background: white;
-      color: #279455;
-      border-radius: 20px;
-      padding: 5px 12px;
-      font-weight: bold;
-      cursor: pointer;
-      border: none;
-    }
     .main {
       flex-grow: 1;
       padding: 40px;
@@ -57,15 +40,9 @@
     }
     th {
       text-align: left;
-      background: #e7e7e7;
+      background: #e6f3ea;
       padding: 12px;
-      color: #279455;
-    }
-    th:first-child {
-      border-radius: 10px 0 0 10px;
-    }
-    th:last-child {
-      border-radius: 0 10px 10px 0;
+      color: #147a34;
     }
     td {
       background: white;
@@ -78,7 +55,7 @@
     }
     .btn {
       cursor: pointer;
-      color: #279455;
+      color: #147a34;
       font-weight: bold;
     }
   </style>
@@ -87,9 +64,9 @@
   <div class="sidebar">
     <div class="logo">Skillio</div>
     <div class="menu-item">Dashboard</div>
-    <div class="profile" id="user-profile">
-      <div>👤 Advisor</div>
-      <button class="logout" onclick="logout()">↶ Log out</button>
+    <div style="margin-top:auto; font-size:14px;">
+      👤 Advisor<br />
+      <button onclick="logout()">🔓 Log out</button>
     </div>
   </div>
 
