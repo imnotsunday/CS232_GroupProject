@@ -1,11 +1,8 @@
-// auth.js
 
-// อ่าน token จาก localStorage
 export function getToken() {
   return localStorage.getItem('token');
 }
 
-// ถอด JWT payload (ไม่ต้อง verify signature)
 export function decodeToken(token) {
   try {
     const payload = token.split('.')[1];
@@ -16,7 +13,6 @@ export function decodeToken(token) {
   }
 }
 
-// ดึง role จาก token
 export function getUserRole() {
   const token = getToken();
   if (!token) return null;
@@ -24,7 +20,6 @@ export function getUserRole() {
   return decoded?.role || null;
 }
 
-// ดึง userId จาก token
 export function getUserId() {
   const token = getToken();
   if (!token) return null;
@@ -32,17 +27,17 @@ export function getUserId() {
   return decoded?.userId || null;
 }
 
-// ตรวจว่า role ตรงกับที่กำหนดไหม (ถ้าไม่ → redirect)
+
 export function requireRole(requiredRole) {
   const role = getUserRole();
   if (!role) {
-    window.location.href = "login.html"; // ยังไม่ login
+    window.location.href = "login.html"; 
   } else if (role !== requiredRole) {
-    window.location.href = "unauthorized.html"; // login แล้วแต่ไม่ใช่ role นี้
+    window.location.href = "unauthorized.html"; 
   }
 }
 
-// ออกจากระบบ
+
 export function logout() {
   localStorage.removeItem('token');
   window.location.href = 'login.html';

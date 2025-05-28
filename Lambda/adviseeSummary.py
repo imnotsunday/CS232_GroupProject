@@ -6,7 +6,6 @@ import hmac
 import hashlib
 from boto3.dynamodb.conditions import Attr, Key
 
-# 🔧 Environment Variables
 dynamodb = boto3.resource('dynamodb')
 SECRET = os.environ.get('JWT_SECRET', 'default-secret')
 TABLE_USERS = os.environ.get('TABLE_USERS', 'Users')
@@ -15,7 +14,6 @@ TABLE_SUBMISSIONS = os.environ.get('TABLE_SUBMISSIONS', 'Submissions')
 users_table = dynamodb.Table(TABLE_USERS)
 submissions_table = dynamodb.Table(TABLE_SUBMISSIONS)
 
-# ✅ Decode JWT
 def decode_jwt(token, secret):
     try:
         parts = token.split('.')
@@ -33,7 +31,6 @@ def decode_jwt(token, secret):
         print("JWT Decode Error:", e)
         return None
 
-# ✅ Lambda handler
 def lambda_handler(event, context):
     token = event.get('headers', {}).get('Authorization') or event.get('headers', {}).get('authorization')
     if not token or not token.startswith('Bearer '):
@@ -68,7 +65,6 @@ def lambda_handler(event, context):
             student_id = item.get("userId")
             student_name = item.get("name", "Unknown")
 
-            # 🔍 Query Submissions using GSI on "userId"
             try:
                 submission_resp = submissions_table.query(
                     IndexName='userId-index',

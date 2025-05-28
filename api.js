@@ -1,6 +1,5 @@
-// api.js
 
-const baseUrl = 'https://t2tqpk6s0k.execute-api.us-east-1.amazonaws.com/prod'; // ใส่ของคุณตรงนี้
+const baseUrl = 'https://t2tqpk6s0k.execute-api.us-east-1.amazonaws.com/prod'; 
 
 export async function apiGet(path) {
   const token = localStorage.getItem('token');

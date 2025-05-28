@@ -54,7 +54,6 @@ def lambda_handler(event, context):
     user_id = user.get('userId')
 
     try:
-        # 1. Total Activities
         submission_result = dynamodb.query(
             TableName=TABLE_SUBMISSIONS,
             IndexName='userId-index',
@@ -63,7 +62,6 @@ def lambda_handler(event, context):
         )
         total_activities = len(submission_result.get('Items', []))
 
-        # 2. Skills (split soft vs hard)
         skills_result = dynamodb.query(
             TableName=TABLE_SKILLS,
             KeyConditionExpression='userId = :uid',

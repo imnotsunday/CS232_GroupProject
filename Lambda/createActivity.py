@@ -47,14 +47,13 @@ def lambda_handler(event, context):
         event_date = body.get('eventDate')
         soft_skills = body.get('softSkills', [])
         hard_skills = body.get('hardSkills', [])
-        quiz = body.get('quiz', [])  # optional list of questions
+        quiz = body.get('quiz', []) 
 
         if not name or not event_date:
             return {"statusCode": 400, "body": json.dumps({"message": "Missing name or eventDate"})}
 
         activity_id = str(uuid.uuid4())
 
-        # ✅ แปลง soft/hard skills เป็น JSON string ก่อนเก็บ
         dynamodb.put_item(
             TableName=TABLE_ACTIVITIES,
             Item={
@@ -69,7 +68,6 @@ def lambda_handler(event, context):
             }
         )
 
-        # 2. Save quiz questions if any
         for i, q in enumerate(quiz):
             dynamodb.put_item(
                 TableName=TABLE_QUIZ,

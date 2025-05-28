@@ -5,7 +5,6 @@ import hmac
 import hashlib
 import boto3
 
-# ENV
 SECRET = os.environ.get('JWT_SECRET', 'default-secret')
 TABLE = os.environ.get('TABLE_ACTIVITIES', 'Activities')
 STATUS_INDEX = 'status-index'

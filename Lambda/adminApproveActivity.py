@@ -44,7 +44,6 @@ def lambda_handler(event, context):
         if not activity_id:
             return {"statusCode": 400, "body": json.dumps({"message": "Missing activityId"})}
 
-        # ✅ Update status = "approved"
         dynamodb.update_item(
             TableName=TABLE,
             Key={"activityId": {"S": activity_id}},

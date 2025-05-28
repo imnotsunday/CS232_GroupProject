@@ -7,7 +7,7 @@ import time
 import boto3
 from datetime import datetime
 
-# ENV
+
 SECRET = os.environ.get('JWT_SECRET', 'default-secret')
 TABLE = os.environ.get('TABLE_PROOFS', 'Proofs')
 BUCKET = os.environ.get('S3_BUCKET_NAME', 'your-bucket-name')
@@ -54,7 +54,6 @@ def lambda_handler(event, context):
 
         object_key = f"{user['userId']}/{activity_id}/{file_name}"
 
-        # 1. Generate pre-signed URL
         url = s3.generate_presigned_url(
             'put_object',
             Params={
@@ -65,7 +64,7 @@ def lambda_handler(event, context):
             ExpiresIn=EXPIRES_IN
         )
 
-        # 2. Save URL reference in DynamoDB
+
         dynamodb.put_item(
             TableName=TABLE,
             Item={

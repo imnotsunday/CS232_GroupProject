@@ -6,7 +6,7 @@ import hashlib
 from datetime import datetime
 import boto3
 
-# Init
+
 dynamodb = boto3.client('dynamodb')
 TABLE_QUIZ = os.environ.get('TABLE_QUIZ', 'QuizQuestions')
 TABLE_ACTIVITIES = os.environ.get('TABLE_ACTIVITIES', 'Activities')
@@ -55,7 +55,6 @@ def lambda_handler(event, context):
         if not activity_id or not answers:
             return {"statusCode": 400, "body": json.dumps({"message": "Missing activityId or answers"})}
 
-        # 1. ดึง soft skills จาก Activities
         activity_data = dynamodb.get_item(
             TableName=TABLE_ACTIVITIES,
             Key={"activityId": {"S": activity_id}}
@@ -72,7 +71,6 @@ def lambda_handler(event, context):
             except:
                 soft_skills = []
 
-        # 2. ดึงคำถามทั้งหมดของ activity
         result = dynamodb.query(
             TableName=TABLE_QUIZ,
             KeyConditionExpression="activityId = :aid",
@@ -99,14 +97,13 @@ def lambda_handler(event, context):
                 "pass": is_correct
             })
 
-        # 3. เพิ่ม soft skill ทั้งหมดให้ pass
         for soft in soft_skills:
             skill_results.append({
                 "name": soft,
                 "pass": True
             })
 
-        # 4. เก็บลง TABLE_SUBMISSIONS
+
         dynamodb.put_item(
             TableName=TABLE_SUBMISSIONS,
             Item={
@@ -120,7 +117,7 @@ def lambda_handler(event, context):
             }
         )
 
-        # 5. เพิ่มเฉพาะ skill ที่ pass ลง TABLE_SKILLS
+
         for s in skill_results:
             if s["pass"]:
                 dynamodb.put_item(

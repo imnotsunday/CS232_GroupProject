@@ -6,28 +6,25 @@ import hmac
 import hashlib
 from boto3.dynamodb.conditions import Key
 
-# 🔐 Env vars
 SECRET = os.environ.get('JWT_SECRET', 'default-secret')
 TABLE_USERS = os.environ.get('TABLE_USERS', 'Users')
 TABLE_SKILLS = os.environ.get('TABLE_SKILLS', 'Skills')
 TABLE_SUBMISSIONS = os.environ.get('TABLE_SUBMISSIONS', 'Submissions')
 TABLE_ACTIVITIES = os.environ.get('TABLE_ACTIVITIES', 'Activities')
 
-# 🔗 DynamoDB
 ddb = boto3.resource('dynamodb')
 users_table = ddb.Table(TABLE_USERS)
 skills_table = ddb.Table(TABLE_SKILLS)
 subs_table = ddb.Table(TABLE_SUBMISSIONS)
 acts_table = ddb.Table(TABLE_ACTIVITIES)
 
-# 🌐 CORS headers
 CORS_HEADERS = {
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Headers": "Content-Type,Authorization",
     "Access-Control-Allow-Methods": "GET,OPTIONS"
 }
 
-# 🔐 JWT decode
+
 def decode_jwt(token, secret):
     try:
         parts = token.split('.')
@@ -45,7 +42,6 @@ def decode_jwt(token, secret):
         print("JWT decode error:", e)
         return None
 
-# 🚀 Main handler
 def lambda_handler(event, context):
     if event.get("httpMethod") == "OPTIONS":
         return {
@@ -68,7 +64,6 @@ def lambda_handler(event, context):
         return {"statusCode": 400, "headers": CORS_HEADERS, "body": json.dumps({"message": "Missing studentId"})}
 
     try:
-        # ✅ Get student name from Users table
         try:
             user_item = users_table.get_item(Key={'userId': student_id}).get('Item', {})
             name = user_item.get('name', student_id)
@@ -76,7 +71,6 @@ def lambda_handler(event, context):
             print("Name lookup failed:", err)
             name = student_id
 
-        # 🧠 Skill split
         soft, hard = [], []
         response = skills_table.query(
             IndexName='userId-index',
@@ -89,7 +83,6 @@ def lambda_handler(event, context):
             else:
                 hard.append(skill)
 
-        # 📝 Submissions + activity info
         result = subs_table.query(
             IndexName='userId-index',
             KeyConditionExpression=Key('userId').eq(student_id)

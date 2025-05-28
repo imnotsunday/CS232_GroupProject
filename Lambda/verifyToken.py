@@ -53,7 +53,6 @@ def lambda_handler(event, context):
             "body": json.dumps({"message": "Invalid or expired token"})
         }
 
-    # ✅ ส่งข้อมูล user กลับให้ใช้งานต่อได้
     return {
         "statusCode": 200,
         "headers": {"Access-Control-Allow-Origin": "*"},
